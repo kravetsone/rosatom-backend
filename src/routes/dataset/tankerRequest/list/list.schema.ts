@@ -15,8 +15,12 @@ const response = z
         pageCount: z.number(),
         items: z.array(
             z.object({
-                imo: z.number(),
-                name: z.string(),
+                startPoint: z.string(),
+                endPoint: z.string(),
+                startDateTime: z.string(),
+                endDateTime: z.string(),
+                id: z.number(),
+                tankerId: z.number(),
             }),
         ),
     })
@@ -24,7 +28,7 @@ const response = z
 
 export const schema = {
     description: "Получение списка",
-    tags: ["iceBreaker"],
+    tags: ["tankerRequest"],
     security: [{ bearerAuth: [] }],
     querystring,
     response: {

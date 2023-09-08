@@ -20,7 +20,7 @@ const response = z.object({
 });
 
 export const schema = {
-    description: "Обновление пользователя администратором",
+    description: "Обновление",
     tags: ["iceBreaker"],
     body,
     params,

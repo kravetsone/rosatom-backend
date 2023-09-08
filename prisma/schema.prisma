@@ -43,13 +43,13 @@ model Tanker {
 // перечень заявок:
 
 model TankerRequest {
-  id            Int      @id @default(autoincrement())
-  tanker        Tanker   @relation(fields: [tankerId], references: [imo], onDelete: Cascade)
+  id            Int    @id @default(autoincrement())
+  tanker        Tanker @relation(fields: [tankerId], references: [imo], onDelete: Cascade)
   tankerId      Int
   startPoint    String
   endPoint      String
-  startDateTime DateTime
-  endDateTime   DateTime
+  startDateTime String
+  endDateTime   String
 }
 
 enum IceClass {

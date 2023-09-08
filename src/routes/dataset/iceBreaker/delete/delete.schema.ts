@@ -15,10 +15,10 @@ const response = z
     .object({
         message: z.string(),
     })
-    .describe("Сообщение о том что пользователь успешно удалён");
+    .describe("Сообщение о том что ледокол успешно удалён");
 
 export const schema = {
-    description: "Удаление пользователя администратором",
+    description: "Удаление ледокола администратором",
     tags: ["iceBreaker"],
     params,
     security: [{ bearerAuth: [] }],

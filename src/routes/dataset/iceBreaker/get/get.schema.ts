@@ -15,7 +15,7 @@ const response = z.object({
 });
 
 export const schema = {
-    description: "Получение пользователя",
+    description: "Получение ледокола",
     tags: ["iceBreaker"],
     params,
     security: [{ bearerAuth: [] }],

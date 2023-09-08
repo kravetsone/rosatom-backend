@@ -22,7 +22,7 @@ const userNotExists = z.object({
 const response = body.describe("Ответ");
 
 export const schema = {
-    description: "Создание пользователя администратором",
+    description: "Создание ледокола администратором",
     tags: ["iceBreaker"],
     body,
     security: [{ bearerAuth: [] }],
