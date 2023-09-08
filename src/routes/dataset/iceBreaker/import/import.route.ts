@@ -1,7 +1,8 @@
+import { prisma } from "@db";
 import { FastifyZodInstance } from "@types";
 import csv from "csvtojson";
 import fastifyMulter from "fastify-multer";
-import { schema } from "./import.schema";
+import { csvValidator, schema } from "./import.schema";
 
 const allowedFileTypes = ["csv", "xlsx"];
 
@@ -24,13 +25,27 @@ export const importDataset = async (fastify: FastifyZodInstance) => {
             preHandler: [fastify.auth(true), uploader.single("dataset")],
         },
         async (req, res) => {
-            const data = await csv({
-                checkType: true,
-                flatKeys: true,
-                ignoreEmpty: true,
-            }).fromString(req.file!.buffer!.toString());
+            const data = csvValidator(
+                await csv({
+                    checkType: true,
+                    flatKeys: true,
+                    ignoreEmpty: true,
+                }).fromString(req.file!.buffer!.toString()),
+            );
             console.log(data);
-            return res.send({});
+
+            await prisma.iceBreaker.deleteMany({ where: {} });
+
+            const { count } = await prisma.iceBreaker.createMany({
+                data: data.map((x) => ({
+                    imo: x.imo,
+                    name: x.icebreaker_name,
+                })),
+            });
+
+            return res.send({
+                message: `${count} строк успешно загружено!`,
+            });
         },
     );
 };

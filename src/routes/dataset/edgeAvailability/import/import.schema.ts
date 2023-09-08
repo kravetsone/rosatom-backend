@@ -5,7 +5,9 @@ const userNotExists = z.object({
     message: z.string().default("Введённые вами логин или пароль неверны"),
 });
 
-const response = z.object({});
+const response = z.object({
+    message: z.string(),
+});
 
 export const schema = {
     description: "Импорт csv",
@@ -26,7 +28,7 @@ export const schema = {
         401: userNotExists,
     },
 };
-//edge_num,icebreaker_name,feasible
+
 const csvSchema = z.array(
     z.object({
         edge_num: z.number({
