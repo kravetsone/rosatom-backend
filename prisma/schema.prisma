@@ -29,16 +29,24 @@ enum UserRole {
 model IceBreaker {
   imo              Int                @id
   name             String
-  EdgeAvailability EdgeAvailability[]
+  edgeAvailability EdgeAvailability[]
+}
+
+model Tanker {
+  imo      Int      @id
+  name     String
+  iceClass IceClass
+  speed    Int
+
+  tankerRequest TankerRequest[]
 }
 
 // перечень заявок:
 
 model TankerRequest {
-  imo           Int      @id
-  name          String
-  iceClass      IceClass
-  speed         Int
+  id            Int      @id @default(autoincrement())
+  tanker        Tanker   @relation(fields: [tankerId], references: [imo])
+  tankerId      Int
   startPoint    String
   endPoint      String
   startDateTime DateTime
