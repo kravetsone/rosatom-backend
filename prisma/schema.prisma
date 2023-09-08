@@ -27,9 +27,8 @@ enum UserRole {
 // Сущности датасета
 
 model IceBreaker {
-  imo              Int                @id
-  name             String
-  edgeAvailability EdgeAvailability[]
+  imo  Int    @id
+  name String @unique
 }
 
 model Tanker {
@@ -75,9 +74,9 @@ model DayIceCohesion {
 }
 
 model EdgeAvailability {
-  id           Int
-  iceBreaker   IceBreaker @relation(fields: [iceBreakerId], references: [imo])
-  iceBreakerId Int
+  id             Int
+  iceBreakerName String
+  isFeasible     Boolean
 
-  @@id([id, iceBreakerId])
+  @@id([id, iceBreakerName])
 }

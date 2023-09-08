@@ -8,7 +8,7 @@ const userNotExists = z.object({
 const response = z.object({});
 
 export const schema = {
-    description: "Обновление пользователя администратором",
+    description: "Импорт csv",
     tags: ["iceBreaker"],
     consumes: ["multipart/form-data"],
     body: {
