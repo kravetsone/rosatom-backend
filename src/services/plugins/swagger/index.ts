@@ -34,7 +34,7 @@ export async function registerSwagger(fastify: FastifyZodInstance) {
             },
         },
         transform: ({ schema, url }) => {
-            if (/upload/i.test(url)) return { schema, url };
+            if (/import/i.test(url)) return { schema, url };
 
             if (schema?.response) {
                 schema.response[400] = z

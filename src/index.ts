@@ -17,7 +17,7 @@ const fastify = Fastify({
 }).withTypeProvider<ZodTypeProvider>();
 
 fastify.setValidatorCompiler<ZodAny>((routeSchema) => {
-    if (routeSchema.url.includes("upload"))
+    if (routeSchema.url.includes("import"))
         return () => ({
             value: true,
         });

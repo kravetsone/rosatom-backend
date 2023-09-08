@@ -10,25 +10,9 @@ export const update = async (fastify: FastifyZodInstance) => {
             preHandler: fastify.auth(true),
         },
         async (req, res) => {
-            if (
-                "imo" in req.body &&
-                req.params.iceBreakerImo !== req.body.imo
-            ) {
-                const iceBreaker = await prisma.iceBreaker.findFirst({
-                    where: {
-                        imo: req.body.imo,
-                    },
-                });
-                if (iceBreaker)
-                    return res.status(400).send({
-                        code: "IMO_ICEBREAKER_EXISTS",
-                        message: "Этот IMO идентификатор уже существует в базе",
-                    });
-            }
-
             const iceBreaker = await prisma.iceBreaker.update({
                 where: {
-                    imo: req.body.imo,
+                    imo: req.params.iceBreakerImo,
                 },
                 data: {
                     ...req.body,
