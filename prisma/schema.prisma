@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://root:bestsecure@localhost:5432/root?schema=public"
+}
+
+model User {
+  id Int @id @default(autoincrement())
+
+  login    String @unique
+  password String
+
+  firstName String
+  lastName  String
+
+  role UserRole @default(USER)
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+// Сущности датасета
+
+model IceBreaker {
+  imo              Int                @id
+  name             String
+  EdgeAvailability EdgeAvailability[]
+}
+
+// перечень заявок:
+
+model TankerRequest {
+  imo           Int      @id
+  name          String
+  iceClass      IceClass
+  speed         Int
+  startPoint    String
+  endPoint      String
+  startDateTime DateTime
+  endDateTime   DateTime
+}
+
+enum IceClass {
+  NoIceClass
+  Ice1
+  Ice2
+  Ice3
+  Arc4
+  Arc5
+  Arc6
+  Arc7
+  Arc8
+  Arc9
+}
+
+model DayIceCohesion {
+  id          Int
+  date        String
+  iceCohesion Int
+
+  @@id([id, date])
+}
+
+model EdgeAvailability {
+  id           Int
+  iceBreaker   IceBreaker @relation(fields: [iceBreakerId], references: [imo])
+  iceBreakerId Int
+
+  @@id([id, iceBreakerId])
+}
