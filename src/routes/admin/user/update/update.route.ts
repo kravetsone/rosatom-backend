@@ -1,4 +1,4 @@
-import { config } from "@config";
+import { SALT_ROUNDS } from "@config";
 import { prisma } from "@db";
 import { FastifyZodInstance } from "@types";
 import bcrypt from "bcrypt";
@@ -15,7 +15,7 @@ export const updateUser = async (fastify: FastifyZodInstance) => {
             if ("password" in req.body) {
                 req.body.password = bcrypt.hashSync(
                     req.body.password!,
-                    config.saltRounds,
+                    SALT_ROUNDS,
                 );
             }
 

@@ -1,4 +1,4 @@
-import { config } from "@config";
+import { SALT_ROUNDS } from "@config";
 import { prisma } from "@db";
 import { UserRole } from "@prisma/client";
 import { FastifyZodInstance } from "@types";
@@ -36,7 +36,7 @@ export const createUser = async (fastify: FastifyZodInstance) => {
             const newUser = await prisma.user.create({
                 data: {
                     login,
-                    password: bcrypt.hashSync(password, config.saltRounds),
+                    password: bcrypt.hashSync(password, SALT_ROUNDS),
                     firstName,
                     lastName,
                 },

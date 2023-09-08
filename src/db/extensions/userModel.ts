@@ -1,4 +1,4 @@
-import { config } from "@config";
+import { SALT_ROUNDS } from "@config";
 import { Prisma, prisma } from "@db";
 import bcrypt from "bcrypt";
 
@@ -16,7 +16,7 @@ export const userModelExtension = {
                         ...userData,
                         password: bcrypt.hashSync(
                             userData.password,
-                            config.saltRounds,
+                            SALT_ROUNDS,
                         ),
                     },
                 });
