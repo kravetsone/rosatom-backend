@@ -41,7 +41,8 @@ const csvSchema = z.array(
             .max(9999999),
         icebreaker_name: z.string({
             invalid_type_error: "icebreaker_name должен быть строкой",
-            required_error: "Дата (icebreaker_name) обязательное поле массива",
+            required_error:
+                "Название ледокола (icebreaker_name) обязательное поле массива",
         }),
     }),
 );

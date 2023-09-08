@@ -44,7 +44,7 @@ model Tanker {
 
 model TankerRequest {
   id            Int      @id @default(autoincrement())
-  tanker        Tanker   @relation(fields: [tankerId], references: [imo], onDelete: NoAction)
+  tanker        Tanker   @relation(fields: [tankerId], references: [imo], onDelete: Cascade)
   tankerId      Int
   startPoint    String
   endPoint      String
