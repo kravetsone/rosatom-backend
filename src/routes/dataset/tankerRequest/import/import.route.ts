@@ -4,7 +4,7 @@ import csv from "csvtojson";
 import fastifyMulter from "fastify-multer";
 import { csvValidator, schema } from "./import.schema";
 
-const allowedFileTypes = ["csv", "xlsx"];
+const allowedFileTypes = ["csv"];
 
 const uploader = fastifyMulter({
     fileFilter(req, file, cb) {

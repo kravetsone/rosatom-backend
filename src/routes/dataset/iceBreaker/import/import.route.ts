@@ -4,7 +4,7 @@ import csv from "csvtojson";
 import fastifyMulter from "fastify-multer";
 import { csvValidator, schema } from "./import.schema";
 
-const allowedFileTypes = ["csv", "xlsx"];
+const allowedFileTypes = ["csv"];
 
 const uploader = fastifyMulter({
     fileFilter(req, file, cb) {
@@ -34,17 +34,26 @@ export const importDataset = async (fastify: FastifyZodInstance) => {
             );
             console.log(data);
 
-            await prisma.iceBreaker.deleteMany({ where: {} });
-
-            const { count } = await prisma.iceBreaker.createMany({
-                data: data.map((x) => ({
-                    imo: x.imo,
-                    name: x.icebreaker_name,
-                })),
-            });
+            const count = await Promise.all(
+                data.map(async (x) =>
+                    prisma.iceBreaker.upsert({
+                        where: {
+                            imo: x.imo,
+                        },
+                        create: {
+                            imo: x.imo,
+                            name: x.icebreaker_name,
+                        },
+                        update: {
+                            imo: x.imo,
+                            name: x.icebreaker_name,
+                        },
+                    }),
+                ),
+            );
 
             return res.send({
-                message: `${count} строк успешно загружено!`,
+                message: `${count.length} строк успешно загружено!`,
             });
         },
     );
