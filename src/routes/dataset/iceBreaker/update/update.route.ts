@@ -3,7 +3,7 @@ import { FastifyZodInstance } from "@types";
 import { schema } from "./update.schema";
 
 export const update = async (fastify: FastifyZodInstance) => {
-    fastify.patch(
+    fastify.post(
         "/dataset/iceBreaker/:iceBreakerImo/update",
         {
             schema,

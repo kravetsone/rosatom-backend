@@ -35,6 +35,21 @@ prisma.$connect().then(async () => {
         port: PORT,
         host: "::",
     });
-
+    // await prisma.tankerRequest.create({
+    //     data: {
+    //         startPoint: "точка в Баренцевом море",
+    //         endPoint: "Саббета 3",
+    //         startDateTime: "01.01.21 23:30",
+    //         endDateTime: "05.01.21 5:00",
+    //         tanker: {
+    //             create: {
+    //                 imo: 9752084,
+    //                 name: "Штурман Альбанов",
+    //                 iceClass: "Arc7",
+    //                 speed: 15,
+    //             },
+    //         },
+    //     },
+    // });
     console.log(`[SERVER] Server has been started at ${host}`);
 });

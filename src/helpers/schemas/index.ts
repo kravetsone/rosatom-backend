@@ -8,3 +8,8 @@ export const userSchema = z.object({
     token: z.string(),
     role: z.nativeEnum(UserRole),
 });
+
+export const imo = z
+    .number()
+    .min(1000000, "IMO ледокола должно содержать 7 символов")
+    .max(9999999, "IMO ледокола должно содержать 7 символов");

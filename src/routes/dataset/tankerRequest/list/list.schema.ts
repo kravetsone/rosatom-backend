@@ -1,3 +1,4 @@
+import { IceClass } from "@prisma/client";
 import z from "zod";
 
 const querystring = z.object({
@@ -20,7 +21,12 @@ const response = z
                 startDateTime: z.string(),
                 endDateTime: z.string(),
                 id: z.number(),
-                tankerId: z.number(),
+                tanker: z.object({
+                    imo: z.number(),
+                    name: z.string(),
+                    speed: z.number(),
+                    iceClass: z.nativeEnum(IceClass),
+                }),
             }),
         ),
     })

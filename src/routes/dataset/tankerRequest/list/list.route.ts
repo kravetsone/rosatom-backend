@@ -22,6 +22,16 @@ export const list = async (fastify: FastifyZodInstance) => {
             const [items, count] = await prisma.tankerRequest.findManyAndCount({
                 skip: (+page - 1) * +pageSize,
                 take: pageSize,
+                include: {
+                    tanker: {
+                        select: {
+                            imo: true,
+                            name: true,
+                            iceClass: true,
+                            speed: true,
+                        },
+                    },
+                },
             });
             return res.send({
                 pageCount: count,
