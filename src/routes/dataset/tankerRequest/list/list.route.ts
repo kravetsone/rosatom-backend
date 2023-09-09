@@ -1,5 +1,4 @@
 import { prisma } from "@db";
-import { UserRole } from "@prisma/client";
 import { FastifyZodInstance } from "@types";
 import { schema } from "./list.schema";
 
@@ -8,16 +7,10 @@ export const list = async (fastify: FastifyZodInstance) => {
         "/dataset/tankerRequest/list",
         {
             schema,
-            preHandler: fastify.auth(true),
+            preHandler: fastify.auth(true, true),
         },
         async (req, res) => {
             const { page, pageSize } = req.query;
-
-            if (req.user!.role !== UserRole.ADMIN)
-                return res.status(400).send({
-                    code: "NO_RIGHTS",
-                    message: "У вас нет прав на получение юзера.",
-                });
 
             const [items, count] = await prisma.tankerRequest.findManyAndCount({
                 skip: (+page - 1) * +pageSize,

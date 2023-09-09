@@ -1,5 +1,4 @@
 import { prisma } from "@db";
-import { UserRole } from "@prisma/client";
 import { FastifyZodInstance } from "@types";
 import { schema } from "./create.schema";
 
@@ -8,7 +7,7 @@ export const create = async (fastify: FastifyZodInstance) => {
         "/dataset/tankerRequest/create",
         {
             schema,
-            preHandler: fastify.auth(true),
+            preHandler: fastify.auth(true, true),
         },
         async (req, res) => {
             const {
@@ -21,13 +20,6 @@ export const create = async (fastify: FastifyZodInstance) => {
                 startDateTime,
                 endDateTime,
             } = req.body;
-
-            const user = req.user!;
-            if (user.role !== UserRole.ADMIN)
-                return res.status(400).send({
-                    code: "NO_RIGHTS",
-                    message: "У вас нет прав на создание аккаунта.",
-                });
 
             const existsIceBreaker = await prisma.iceBreaker.findUnique({
                 where: {

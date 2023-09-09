@@ -1,4 +1,3 @@
-import { IceClass } from "@prisma/client";
 import z from "zod";
 
 const querystring = z.object({

@@ -1,4 +1,4 @@
-import { prisma } from "@db";
+import { prisma, UserRole } from "@db";
 import { FastifyZodInstance } from "@types";
 import { FastifyReply, FastifyRequest } from "fastify";
 import fastifyPlugin from "fastify-plugin";
@@ -8,7 +8,7 @@ export function registerAuth(
     _opts: unknown,
     done,
 ) {
-    fastify.decorate("auth", (getUser = false) => {
+    fastify.decorate("auth", (getUser = false, isForAdmin = false) => {
         return async (req: FastifyRequest, res: FastifyReply) => {
             console.log(req.headers);
             await req.jwtVerify().catch(() => {
@@ -30,6 +30,12 @@ export function registerAuth(
                     return res.status(401).send({
                         code: "NO_AUTH",
                         message: "Вы не авторизовались",
+                    });
+
+                if (isForAdmin && req.user.role !== UserRole.ADMIN)
+                    return res.status(400).send({
+                        code: "NO_RIGHTS",
+                        message: "У вас нет прав",
                     });
             }
         };

@@ -1,6 +1,5 @@
 import { SALT_ROUNDS } from "@config";
 import { prisma } from "@db";
-import { UserRole } from "@prisma/client";
 import { FastifyZodInstance } from "@types";
 import bcrypt from "bcrypt";
 import { schema } from "./create.schema";
@@ -10,17 +9,10 @@ export const createUser = async (fastify: FastifyZodInstance) => {
         "/admin/user/create",
         {
             schema,
-            preHandler: fastify.auth(true),
+            preHandler: fastify.auth(true, true),
         },
         async (req, res) => {
             const { login, password, firstName, lastName } = req.body;
-
-            const user = req.user!;
-            if (user.role !== UserRole.ADMIN)
-                return res.status(400).send({
-                    code: "NO_RIGHTS",
-                    message: "У вас нет прав на создание аккаунта.",
-                });
 
             const uniqueLogin = await prisma.user.findFirst({
                 where: {

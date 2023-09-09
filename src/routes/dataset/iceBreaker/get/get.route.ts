@@ -1,4 +1,4 @@
-import { prisma, UserRole } from "@db";
+import { prisma } from "@db";
 import { FastifyZodInstance } from "@types";
 import { schema } from "./get.schema";
 
@@ -7,16 +7,10 @@ export const get = async (fastify: FastifyZodInstance) => {
         "/dataset/iceBreaker/:iceBreakerImo",
         {
             schema,
-            preHandler: fastify.auth(true),
+            preHandler: fastify.auth(true, true),
         },
         async (req, res) => {
             const { iceBreakerImo } = req.params;
-
-            if (req.user!.role !== UserRole.ADMIN)
-                return res.status(400).send({
-                    code: "NO_RIGHTS",
-                    message: "У вас нет прав на получение юзера.",
-                });
 
             const iceBreaker = await prisma.iceBreaker.findFirst({
                 where: {

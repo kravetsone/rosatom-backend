@@ -1,24 +1,16 @@
 import { prisma } from "@db";
-import { UserRole } from "@prisma/client";
 import { FastifyZodInstance } from "@types";
 import { schema } from "./delete.schema";
 
-export const deleteEdgeAvailability = async (fastify: FastifyZodInstance) => {
+export const deleteDayIceCohesion = async (fastify: FastifyZodInstance) => {
     fastify.delete(
-        "/dataset/edgeAvailability/:edgeId/:date/delete",
+        "/dataset/dayIceCohesion/:edgeId/:date/delete",
         {
             schema,
             preHandler: fastify.auth(true),
         },
         async (req, res) => {
             const { edgeId, date } = req.params;
-
-            const user = req.user!;
-            if (user.role !== UserRole.ADMIN)
-                return res.status(400).send({
-                    code: "NO_RIGHTS",
-                    message: "У вас нет прав",
-                });
 
             const dayIceCohesion = await prisma.dayIceCohesion.findUnique({
                 where: {
@@ -30,7 +22,7 @@ export const deleteEdgeAvailability = async (fastify: FastifyZodInstance) => {
             });
             if (!dayIceCohesion)
                 return res.status(400).send({
-                    code: "TANKER_REQUEST_NOT_EXISTS",
+                    code: "NOT_EXISTS",
                     message: "Этой записи о погодных условиях не существует",
                 });
 
