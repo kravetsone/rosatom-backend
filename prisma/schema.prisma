@@ -35,7 +35,7 @@ model IceBreaker {
 
 model IceBreakerMetadata {
   shipType         String
-  flagCountryCode  String
+  flagCountryCode  String @default("ru")
   dateOfBuild      String
   grossTonnage     Float
   summerDeadweight Int
@@ -51,7 +51,7 @@ model IceBreakerMetadata {
 
 model IceBreakerOwner {
   name               String
-  counryCode         String
+  countryCode        String               @map("counryCode")
   imo                Int                  @id
   IceBreakerMetadata IceBreakerMetadata[]
 }
@@ -68,7 +68,7 @@ model Tanker {
 
 model TankerMetadata {
   shipType         String
-  flagCountryCode  String
+  flagCountryCode  String @default("ru")
   dateOfBuild      String
   grossTonnage     Float
   summerDeadweight Int
@@ -83,9 +83,9 @@ model TankerMetadata {
 }
 
 model TankerOwner {
-  name       String
-  counryCode String
-  imo        Int    @id
+  name        String
+  countryCode String @map("counryCode")
+  imo         Int    @id
 
   TankerMetadata TankerMetadata[]
 }

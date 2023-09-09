@@ -35,16 +35,18 @@ const csvSchema = z.array(
             invalid_type_error: "edge_num должно быть числом",
             required_error: "Номер ребра (edge_num) обязательное поле массива",
         }),
-        date: z
-            .string({
+        date: z.preprocess(
+            String,
+            z.string({
                 invalid_type_error:
                     "date должен быть строкой в формате ДД.ММ.ГГГГ",
                 required_error: "Дата (date) обязательное поле массива",
-            })
-            .regex(
-                /^([0-9]{2})\.([0-9]{2})\.([0-9]{4})$/,
-                "Дата должна быть указана в формате ДД.ММ.ГГГГ",
-            ),
+            }),
+        ),
+        // .regex(
+        //     /^([0-9]{2})\.([0-9]{2})\.([0-9]{4})$/,
+        //     "Дата должна быть указана в формате ДД.ММ.ГГГГ",
+        // ),
         ice_strength: z
             .number({
                 invalid_type_error:

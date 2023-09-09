@@ -1,10 +1,8 @@
+import { imo } from "@helpers";
 import z from "zod";
 
 const body = z.object({
-    imo: z
-        .string()
-        .length(7, "IMO ледокола должно содержать 8 символов")
-        .transform(Number),
+    imo,
     name: z
         .string()
         .trim()

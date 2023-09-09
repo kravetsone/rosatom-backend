@@ -2,12 +2,11 @@ import z from "zod";
 
 const body = z.object({
     edgeId: z.number(),
-    date: z
-        .string()
-        .regex(
-            /^([0-9]{2})\.([0-9]{2})\.([0-9]{4})$/,
-            "Дата должна быть в формате ДД.ММ.ГГГГ",
-        ),
+    date: z.string(),
+    // .regex(
+    //     /^([0-9]{2})\.([0-9]{2})\.([0-9]{4})$/,
+    //     "Дата должна быть в формате ДД.ММ.ГГГГ",
+    // ),
     iceCohesion: z
         .number()
         .min(

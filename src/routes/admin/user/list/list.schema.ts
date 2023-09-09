@@ -3,7 +3,7 @@ import z from "zod";
 
 const querystring = z.object({
     page: z.string().transform(Number).refine(Boolean).default("1"),
-    pageSize: z.string().transform(Number).refine(Boolean),
+    pageSize: z.string().transform(Number).refine(Boolean).default("30"),
 });
 
 const userNotExists = z.object({
