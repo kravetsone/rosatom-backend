@@ -1,6 +1,7 @@
 import { prisma } from "@db";
 import { FastifyZodInstance } from "@types";
 import { json2csv } from "json-2-csv";
+import snakecaseKeys from "snakecase-keys";
 import { schema } from "./export.schema";
 
 export const exportDataset = async (fastify: FastifyZodInstance) => {
@@ -10,7 +11,15 @@ export const exportDataset = async (fastify: FastifyZodInstance) => {
             schema,
         },
         async (req, res) => {
-            const tankers = await prisma.tanker.findMany();
+            const tankers = await prisma.tanker.findMany({
+                include: {
+                    metadata: {
+                        include: {
+                            registeredOwner: true,
+                        },
+                    },
+                },
+            });
 
             const data = await json2csv(
                 tankers.map((x) => ({
@@ -18,6 +27,9 @@ export const exportDataset = async (fastify: FastifyZodInstance) => {
                     tanker_name: x.name,
                     ice_class: x.iceClass,
                     speed: x.speed,
+                    metadata: x.metadata
+                        ? snakecaseKeys(x.metadata as Record<string, unknown>)
+                        : null,
                 })),
             );
 
