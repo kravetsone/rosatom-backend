@@ -5,35 +5,35 @@ import { schema } from "./delete.schema";
 
 export const deleteIceBreaker = async (fastify: FastifyZodInstance) => {
     fastify.delete(
-        "/dataset/iceBreaker/:iceBreakerImo/delete",
+        "/dataset/tankerRequest/:iceBreakerId/delete",
         {
             schema,
             preHandler: fastify.auth(true),
         },
         async (req, res) => {
-            const { iceBreakerImo } = req.params;
+            const { iceBreakerId } = req.params;
 
             const user = req.user!;
             if (user.role !== UserRole.ADMIN)
                 return res.status(400).send({
                     code: "NO_RIGHTS",
-                    message: "У вас нет прав.",
+                    message: "У вас нет прав на создание аккаунта.",
                 });
 
-            const iceBreaker = await prisma.iceBreaker.findFirst({
+            const tankerRequest = await prisma.tankerRequest.findFirst({
                 where: {
-                    imo: iceBreakerImo,
+                    id: iceBreakerId,
                 },
             });
-            if (!iceBreaker)
+            if (!tankerRequest)
                 return res.status(400).send({
-                    code: "ICEBREAKER_NOT_EXISTS",
-                    message: "Этого ледокола не существует",
+                    code: "TANKER_REQUEST_NOT_EXISTS",
+                    message: "Этой заявки не существует",
                 });
 
-            await prisma.iceBreaker.delete({
+            await prisma.tankerRequest.delete({
                 where: {
-                    imo: iceBreaker.imo,
+                    id: iceBreakerId,
                 },
             });
             return res.send({
