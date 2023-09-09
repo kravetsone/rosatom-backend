@@ -17,8 +17,8 @@ export const create = async (fastify: FastifyZodInstance) => {
                 speed,
                 startPoint,
                 endPoint,
-                startDateTime,
-                endDateTime,
+                startTime,
+                endTime,
             } = req.body;
 
             const existsIceBreaker = await prisma.iceBreaker.findUnique({
@@ -36,8 +36,8 @@ export const create = async (fastify: FastifyZodInstance) => {
                 data: {
                     startPoint,
                     endPoint,
-                    startDateTime,
-                    endDateTime,
+                    startTime,
+                    endTime,
                     tanker: {
                         connectOrCreate: {
                             where: {
@@ -62,8 +62,8 @@ export const create = async (fastify: FastifyZodInstance) => {
                 },
                 startPoint,
                 endPoint,
-                startDateTime,
-                endDateTime,
+                startTime,
+                endTime,
             });
         },
     );

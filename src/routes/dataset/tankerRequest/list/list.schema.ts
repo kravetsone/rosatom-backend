@@ -18,8 +18,8 @@ const response = z
             z.object({
                 startPoint: z.string(),
                 endPoint: z.string(),
-                startDateTime: z.string(),
-                endDateTime: z.string(),
+                startTime: z.number(),
+                endTime: z.number(),
                 id: z.number(),
                 tanker: z.object({
                     imo: z.number(),

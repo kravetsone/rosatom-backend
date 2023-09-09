@@ -91,13 +91,13 @@ model TankerOwner {
 }
 
 model TankerRequest {
-  id            Int    @id @default(autoincrement())
-  tanker        Tanker @relation(fields: [tankerId], references: [imo], onDelete: Cascade)
-  tankerId      Int
-  startPoint    String
-  endPoint      String
-  startDateTime String
-  endDateTime   String
+  id         Int    @id @default(autoincrement())
+  tanker     Tanker @relation(fields: [tankerId], references: [imo], onDelete: Cascade)
+  tankerId   Int
+  startPoint String
+  endPoint   String
+  startTime  Int
+  endTime    Int
 }
 
 enum IceClass {

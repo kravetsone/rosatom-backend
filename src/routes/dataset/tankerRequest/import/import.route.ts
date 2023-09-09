@@ -2,6 +2,7 @@ import { prisma } from "@db";
 import { FastifyZodInstance } from "@types";
 import csv from "csvtojson";
 import fastifyMulter from "fastify-multer";
+import moment from "moment";
 import { csvValidator, schema } from "./import.schema";
 
 const allowedFileTypes = ["csv"];
@@ -38,10 +39,18 @@ export const importDataset = async (fastify: FastifyZodInstance) => {
             await prisma.tankerRequest.deleteMany({ where: {} });
 
             for (const data of datas) {
+                console.log(
+                    data,
+                    moment(data.start_time, "DD.MM.YY HH:mm").unix(),
+                    moment(data.end_time, "DD.MM.YY HH:mm").unix(),
+                );
                 await prisma.tankerRequest.create({
                     data: {
-                        startDateTime: data.start_time,
-                        endDateTime: data.end_time,
+                        startTime: moment(
+                            data.start_time,
+                            "DD.MM.YY HH:mm",
+                        ).unix(),
+                        endTime: moment(data.end_time, "DD.MM.YY HH:mm").unix(),
                         startPoint: data.start_point,
                         endPoint: data.end_point,
                         tanker: {

@@ -5,8 +5,8 @@ import z from "zod";
 const body = z.object({
     startPoint: z.string(),
     endPoint: z.string(),
-    startDateTime: z.string(),
-    endDateTime: z.string(),
+    startTime: z.number(),
+    endTime: z.number(),
     imo,
     name: z
         .string()
@@ -27,8 +27,8 @@ const response = z
     .object({
         startPoint: z.string(),
         endPoint: z.string(),
-        startDateTime: z.string(),
-        endDateTime: z.string(),
+        startTime: z.number(),
+        endTime: z.number(),
         tanker: z.object({
             imo: z.number(),
             name: z.string(),

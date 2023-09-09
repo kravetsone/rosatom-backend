@@ -55,15 +55,26 @@ const csvSchema = z.array(
             required_error:
                 "Конечная точка (end_point) обязательное поле массива",
         }),
-        start_time: z.string({
-            invalid_type_error: "start_time должно быть числом",
-            required_error:
-                "Время начала (start_time) обязательное поле массива",
-        }),
-        end_time: z.string({
-            invalid_type_error: "end_time должно быть числом",
-            required_error: "Время конца (end_time) обязательное поле массива",
-        }),
+        start_time: z
+            .string({
+                invalid_type_error: "start_time должно быть числом",
+                required_error:
+                    "Время начала (start_time) обязательное поле массива",
+            })
+            .regex(
+                /^\d{2}\.\d{2}\.\d{2} \d{1,2}:\d{2}$/,
+                "Дата должна быть в формате DD.MM.YY HH:MM",
+            ),
+        end_time: z
+            .string({
+                invalid_type_error: "end_time должно быть числом",
+                required_error:
+                    "Время конца (end_time) обязательное поле массива",
+            })
+            .regex(
+                /^\d{2}\.\d{2}\.\d{2} \d{1,2}:\d{2}$/,
+                "Дата должна быть в формате DD.MM.YY HH:MM",
+            ),
         tanker_name: z.string({
             invalid_type_error: "tanker_name должен быть строкой",
             required_error:
