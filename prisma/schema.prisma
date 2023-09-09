@@ -29,6 +29,31 @@ enum UserRole {
 model IceBreaker {
   imo  Int    @id
   name String @unique
+
+  metadata IceBreakerMetadata?
+}
+
+model IceBreakerMetadata {
+  shipType         String
+  flagCountryCode  String
+  dateOfBuild      String
+  grossTonnage     Float
+  summerDeadweight Int
+  lengthOverall    Int
+  beam             Int
+
+  registeredOwner    IceBreakerOwner? @relation(fields: [registeredOwnerImo], references: [imo])
+  registeredOwnerImo Int?
+
+  iceBreaker    IceBreaker @relation(fields: [iceBreakerImo], references: [imo])
+  iceBreakerImo Int        @unique
+}
+
+model IceBreakerOwner {
+  name               String
+  counryCode         String
+  imo                Int                  @id
+  IceBreakerMetadata IceBreakerMetadata[]
 }
 
 model Tanker {
@@ -37,10 +62,33 @@ model Tanker {
   iceClass IceClass
   speed    Int
 
+  metadata      TankerMetadata?
   tankerRequest TankerRequest[]
 }
 
-// перечень заявок:
+model TankerMetadata {
+  shipType         String
+  flagCountryCode  String
+  dateOfBuild      String
+  grossTonnage     Float
+  summerDeadweight Int
+  lengthOverall    Int
+  beam             Int
+
+  registeredOwner    TankerOwner? @relation(fields: [registeredOwnerImo], references: [imo])
+  registeredOwnerImo Int?
+
+  tanker    Tanker @relation(fields: [tankerImo], references: [imo])
+  tankerImo Int    @unique
+}
+
+model TankerOwner {
+  name       String
+  counryCode String
+  imo        Int    @id
+
+  TankerMetadata TankerMetadata[]
+}
 
 model TankerRequest {
   id            Int    @id @default(autoincrement())

@@ -4,7 +4,7 @@ import { schema } from "./list.schema";
 
 export const list = async (fastify: FastifyZodInstance) => {
     fastify.get(
-        "/dataset/iceBreaker/list",
+        "/dataset/tanker/list",
         {
             schema,
             preHandler: fastify.auth(true, true),
@@ -12,7 +12,7 @@ export const list = async (fastify: FastifyZodInstance) => {
         async (req, res) => {
             const { page, pageSize } = req.query;
 
-            const [items, count] = await prisma.iceBreaker.findManyAndCount({
+            const [items, count] = await prisma.tanker.findManyAndCount({
                 skip: (+page - 1) * +pageSize,
                 take: pageSize,
                 include: {

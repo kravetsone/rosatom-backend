@@ -1,3 +1,4 @@
+import { IceClass } from "@prisma/client";
 import z from "zod";
 
 const querystring = z.object({
@@ -17,6 +18,8 @@ const response = z
             z.object({
                 imo: z.number(),
                 name: z.string(),
+                speed: z.number(),
+                iceClass: z.nativeEnum(IceClass),
                 metadata: z
                     .object({
                         shipType: z.string(),
@@ -41,10 +44,16 @@ const response = z
         ),
     })
     .describe("Список");
-
+// shipType         String
+// flagCountryCode  String
+// dateOfBuild      String
+// grossTonnage     Int
+// summerDeadweight Int
+// lengthOverall    Int
+// beam             Int
 export const schema = {
     description: "Получение списка",
-    tags: ["iceBreaker"],
+    tags: ["tanker"],
     security: [{ bearerAuth: [] }],
     querystring,
     response: {
