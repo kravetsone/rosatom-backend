@@ -25,8 +25,10 @@ export const exportDataset = async (fastify: FastifyZodInstance) => {
                     speed: x.tanker.speed,
                     start_point: x.startPoint,
                     end_point: x.endPoint,
-                    start_time: moment(x.startTime).format("DD.MM.YY HH:mm"),
-                    end_time: moment(x.endTime).format("DD.MM.YY HH:mm"),
+                    start_time: moment(x.startTime * 1000).format(
+                        "DD.MM.YY HH:mm",
+                    ),
+                    end_time: moment(x.endTime * 1000).format("DD.MM.YY HH:mm"),
                 })),
             );
 
