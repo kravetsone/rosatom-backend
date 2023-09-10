@@ -31,6 +31,8 @@ model IceBreaker {
   name String @unique
 
   metadata IceBreakerMetadata?
+
+  schedules Schedule[]
 }
 
 model IceBreakerMetadata {
@@ -64,6 +66,7 @@ model Tanker {
 
   metadata      TankerMetadata?
   tankerRequest TankerRequest[]
+  schedules     Schedule[]
 }
 
 model TankerMetadata {
@@ -127,4 +130,18 @@ model EdgeAvailability {
   isFeasible     Boolean
 
   @@id([id, iceBreakerName])
+}
+
+model Schedule {
+  id Int @id @default(autoincrement())
+
+  startTime Int
+  endTime   Int
+  startLine String
+  endLine   String
+
+  tanker        Tanker     @relation(fields: [tankerId], references: [imo], onDelete: Cascade)
+  tankerId      Int
+  iceBreaker    IceBreaker @relation(fields: [iceBreakerImo], references: [imo], onDelete: Cascade)
+  iceBreakerImo Int
 }
