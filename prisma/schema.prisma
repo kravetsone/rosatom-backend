@@ -60,7 +60,7 @@ model IceBreakerOwner {
 
 model Tanker {
   imo      Int      @id
-  name     String
+  name     String   @unique
   iceClass IceClass
   speed    Int
 
@@ -133,7 +133,7 @@ model EdgeAvailability {
 }
 
 model Schedule {
-  id Int @id @default(autoincrement())
+  id Int @id
 
   startTime Int
   endTime   Int

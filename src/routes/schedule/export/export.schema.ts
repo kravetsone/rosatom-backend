@@ -11,7 +11,7 @@ const response = z
 
 export const schema = {
     description: "Удаление заяки администратором",
-    tags: ["tanker"],
+    tags: ["schedule"],
     security: [{ bearerAuth: [] }],
     response: {
         200: response,

@@ -6,32 +6,23 @@ import { schema } from "./export.schema";
 
 export const exportDataset = async (fastify: FastifyZodInstance) => {
     fastify.get(
-        "/dataset/schedule/export",
+        "/schedule/export",
         {
             schema,
         },
         async (req, res) => {
-            // const tankers = await prisma.tanker.findMany({
-            //     include: {
-            //         metadata: {
-            //             include: {
-            //                 registeredOwner: true,
-            //             },
-            //         },
-            //     },
-            // });
+            const schedules = await prisma.schedule.findMany({
+                include: {
+                    tanker: true,
+                    iceBreaker: true,
+                },
+            });
 
-            // const data = await json2csv(
-            //     tankers.map((x) => ({
-            //         imo: x.imo,
-            //         tanker_name: x.name,
-            //         ice_class: x.iceClass,
-            //         speed: x.speed,
-            //         metadata: x.metadata
-            //             ? snakecaseKeys(x.metadata as Record<string, unknown>)
-            //             : null,
-            //     })),
-            // );
+            const data = await json2csv(
+                schedules.map((x) => ({
+                    ...snakecaseKeys(x as Record<string, unknown>),
+                })),
+            );
 
             res.header("Content-Type", "text/csv");
             res.header(
@@ -39,7 +30,7 @@ export const exportDataset = async (fastify: FastifyZodInstance) => {
                 "attachment; filename=tankers.csv",
             );
 
-            return res.send("data");
+            return res.send(data);
         },
     );
 };

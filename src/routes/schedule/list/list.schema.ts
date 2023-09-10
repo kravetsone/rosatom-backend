@@ -38,7 +38,7 @@ const response = z
 
 export const schema = {
     description: "Получение списка",
-    tags: ["tanker"],
+    tags: ["schedule"],
     security: [{ bearerAuth: [] }],
     querystring,
     response: {
